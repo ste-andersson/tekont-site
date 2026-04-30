@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tekont – Bokför kvitton. Enkelt.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --olive-700: #556132;
+      --olive-600: #66753D;
+      --olive-500: #738447;
+      --olive-100: #EEF2E3;
+      --cognac-600: #A45D2A;
+      --cognac-500: #BB6F37;
+      --sand-50: #FAF8F3;
+      --sand-100: #F4F0E8;
+      --sand-200: #E8E1D5;
+      --ink-900: #222222;
+      --ink-700: #4A4AAA;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--sand-50);
+      color: var(--ink-900);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 560px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    .logo-wrap {
+      text-align: center;
+    }
+
+    .logo-wrap img {
+      width: 260px;
+      max-width: 100%;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--sand-200);
+      border-radius: 12px;
+      padding: 2rem;
+      width: 100%;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--olive-600);
+      margin-bottom: 1.25rem;
+    }
+
+    .field {
+      margin-bottom: 1.25rem;
+    }
+
+    .field:last-child {
+      margin-bottom: 0;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #7A7A7A;
+      margin-bottom: 6px;
+    }
+
+    .field-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--sand-50);
+      border: 1px solid var(--sand-200);
+      border-radius: 8px;
+      padding: 10px 14px;
+    }
+
+    .field-value {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-900);
+      word-break: break-all;
+      font-family: 'Inter', monospace;
+    }
+
+    .token-value {
+      font-size: 12px;
+      font-weight: 400;
+      color: #7A7A7A;
+      word-break: break-all;
+      font-family: monospace;
+      line-height: 1.5;
+    }
+
+    .copy-btn {
+      flex-shrink: 0;
+      background: none;
+      border: 1px solid var(--sand-200);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--olive-600);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+
+    .copy-btn:hover {
+      background: var(--olive-100);
+    }
+
+    .copy-btn.copied {
+      color: var(--cognac-600);
+      border-color: var(--cognac-500);
+    }
+
+    .cta {
+      width: 100%;
+    }
+
+    .cta a {
+      display: block;
+      text-align: center;
+      background: var(--olive-700);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: background 0.15s;
+    }
+
+    .cta a:hover {
+      background: var(--olive-600);
+    }
+
+    footer {
+      font-size: 12px;
+      color: #aaa;
+      text-align: center;
+    }
+
+    @media (max-width: 400px) {
+      .field-row { flex-direction: column; align-items: flex-start; }
+      .copy-btn { align-self: flex-end; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <div class="logo-wrap">
+      <img src="logo-text5.png" alt="Tekont – Bokför kvitton. Enkelt.">
+    </div>
+
+    <div class="card">
+      <div class="card-title">Testuppgifter</div>
+
+      <div class="field">
+        <label>Company ID</label>
+        <div class="field-row">
+          <span class="field-value" id="company-id">c41675e4-71a7-47b2-b9de-0c5ea0f23d9d</span>
+          <button class="copy-btn" onclick="copy('company-id', this)">Kopiera</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Bokio-token</label>
+        <div class="field-row" style="align-items: flex-start;">
+          <span class="token-value" id="bokio-token">U1dFUFJPREFFUzI1NlYyOmM1N2ZNM3RMKy9pdWg3RjkwRHBtUVNrUkNJeFVMT3ptM3E5NTJhZXRYQ2NUdytwL3hzeSthUm5SNlp0QmtoQjJHMWpjdmNJYmJMMGx6eURkYzNTU0RLUzJ0MVg5Y3l5M1NMNEZ0TUJzcTYwMFBRSjlaSkpEaExlV0xSVGw4dTU5TFY2Y05yaFZrVTE1SDUraEhpV0dheC83bUVkMHFxVDVHK2NybW5Zemw1MGdoS1JUZUFJTzdCZ2dIMytEVHVKbzN0M21Ra3N2SHRTTWpRWE9VaGgydHA5NzNVNDl5cndmV3RpbVFNU2krVTFRampNSjQzc0ZFSkozT0QzcTNsK3JERVhta01sRzM3YWpVTlljNEtpdS82WXhQd3hJeElnNWJBNVV6T3poMzl4V3RiNTI5V2lGUjk1RkxVTU5paUQ4L25KMEMrZTR1WU9sMmluamRJKzU5d21ibWI1ZkpxVDlscDllK1VFVFkydE5Zd1RnRTBVVlZKN0xBbmJlNXl3WHpUcVZtdzNzWHZraVJCb3g0bkFndUFESmlPYzQxM0lZOVFpVTV4SVFCeUo1SEV3MHJOOGRmRW9Qc0R3L3dnNGNCZ01DM0tscHhwVm1ZV0FCM1hqMXRLemEyV1hsZVVuTW8zeEljUnpRQ2hBS3RYTTZ6dytMM0JlQ29DSmlXWkhrWlk4VTJlZFZBMXA3MWRuM1dXNHhHN3NjOGFpdnlTZzdEUEZBbUVneHpEUDFPQi9xUEs3OTNFMU51alhMelZyMGppbDNMQzhkVXpZUmh3bldiWmpGYXc9PQ==</span>
+          <button class="copy-btn" style="margin-top:2px;" onclick="copy('bokio-token', this)">Kopiera</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta">
+      <a href="https://app.tekont.se" target="_blank">Öppna appen →</a>
+    </div>
+
+    <footer>tekont.se</footer>
+
+  </div>
+
+  <script>
+    function copy(id, btn) {
+      const text = document.getElementById(id).textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'Kopierat!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.classList.remove('copied');
+        }, 1800);
+      });
+    }
+  </script>
+</body>
+</html>
