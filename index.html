@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tekont – Bokför kvitton. Enkelt.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --olive-700: #556132;
       --olive-600: #66753D;
@@ -20,205 +19,415 @@
       --sand-100: #F4F0E8;
       --sand-200: #E8E1D5;
       --ink-900: #222222;
-      --ink-700: #4A4AAA;
+      --ink-700: #4A4A4A;
+      --ink-500: #7A7A7A;
+      --white: #ffffff;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--sand-50); color: var(--ink-900); line-height: 1.6; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(250,248,243,0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--sand-200);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    nav img { height: 26px; }
+    .nav-cta {
+      display: inline-block; background: var(--olive-700); color: white;
+      text-decoration: none; padding: 8px 18px; border-radius: 6px;
+      font-size: 14px; font-weight: 500; transition: background 0.15s;
+    }
+    .nav-cta:hover { background: var(--olive-600); }
+
+    section { padding: 5rem 1.5rem; }
+    .container { max-width: 860px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--cognac-600); margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 600;
+      color: var(--ink-900); margin-bottom: 1.5rem; letter-spacing: -0.01em;
     }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--sand-50);
-      color: var(--ink-900);
-      min-height: 100vh;
+    /* HERO */
+    .hero {
+      padding: 6rem 1.5rem 4rem;
+      text-align: center; background: var(--sand-50);
+    }
+    .hero-logo { height: 220px; margin-bottom: 2rem; }
+    .hero p {
+      font-size: clamp(1rem, 2.5vw, 1.1rem);
+      color: var(--ink-700); font-weight: 300;
+      max-width: 500px; margin: 0 auto 2.5rem;
+    }
+    .hero-cta {
+      display: inline-block; background: var(--olive-700); color: white;
+      text-decoration: none; padding: 14px 36px; border-radius: 8px;
+      font-size: 15px; font-weight: 500; transition: background 0.15s;
+    }
+    .hero-cta:hover { background: var(--olive-600); }
+
+    /* VIDEO */
+    .video-section { background: var(--sand-100); }
+    .video-wrap {
+      position: relative; padding-bottom: 56.25%; height: 0;
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--sand-200);
+      box-shadow: 0 2px 20px rgba(85,97,50,0.07);
+    }
+    .video-wrap iframe { position: absolute; top:0; left:0; width:100%; height:100%; border:none; }
+
+    /* APP */
+    .app-section { background: var(--white); }
+    .app-section .lead {
+      font-size: 1rem; color: var(--ink-700); font-weight: 300;
+      max-width: 620px; margin-bottom: 2rem; line-height: 1.8;
+    }
+    .app-section .lead strong { font-weight: 500; color: var(--ink-900); }
+    .app-section img { width: 100%; border-radius: 12px; border: 1px solid var(--sand-200); }
+
+    /* FLOW */
+    .flow-section { background: var(--sand-50); }
+
+    .flow-diagram {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem 1rem;
-    }
-
-    .page {
-      width: 100%;
-      max-width: 560px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3rem;
-    }
-
-    .logo-wrap {
-      text-align: center;
-    }
-
-    .logo-wrap img {
-      width: 260px;
-      max-width: 100%;
-    }
-
-    .card {
-      background: #ffffff;
-      border: 1px solid var(--sand-200);
-      border-radius: 12px;
-      padding: 2rem;
+      align-items: stretch;
+      gap: 0;
       width: 100%;
     }
 
-    .card-title {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--olive-600);
-      margin-bottom: 1.25rem;
-    }
-
-    .field {
-      margin-bottom: 1.25rem;
-    }
-
-    .field:last-child {
-      margin-bottom: 0;
-    }
-
-    .field label {
-      display: block;
-      font-size: 13px;
-      font-weight: 500;
-      color: #7A7A7A;
-      margin-bottom: 6px;
-    }
-
-    .field-row {
+    /* Sources row: spacer for kvitto column, then 3 sources, then spacer for last 2 steps */
+    .flow-sources-row {
       display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--sand-50);
-      border: 1px solid var(--sand-200);
-      border-radius: 8px;
-      padding: 10px 14px;
+      align-items: flex-end;
+      width: 100%;
     }
-
-    .field-value {
+    /* Spacer covers kvitto + arrow = ~1 step + 1 arrow out of 5 steps + 4 arrows total */
+    .flow-source-spacer { flex: 1; max-width: 128px; }
+    .flow-source {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 8px;
       flex: 1;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--ink-900);
-      word-break: break-all;
-      font-family: 'Inter', monospace;
     }
+    .flow-source img { width: 44px; height: 44px; object-fit: contain; }
+    .flow-source span { font-size: 12px; color: var(--ink-700); font-weight: 400; text-align: center; line-height: 1.3; }
 
-    .token-value {
-      font-size: 12px;
-      font-weight: 400;
-      color: #7A7A7A;
-      word-break: break-all;
-      font-family: monospace;
-      line-height: 1.5;
+    .flow-svg-wrap {
+      width: 100%;
+      height: 56px;
     }
+    .flow-svg-wrap svg { width: 100%; height: 100%; }
 
-    .copy-btn {
-      flex-shrink: 0;
-      background: none;
-      border: 1px solid var(--sand-200);
-      border-radius: 6px;
-      padding: 5px 10px;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--olive-600);
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-      white-space: nowrap;
-    }
-
-    .copy-btn:hover {
-      background: var(--olive-100);
-    }
-
-    .copy-btn.copied {
-      color: var(--cognac-600);
-      border-color: var(--cognac-500);
-    }
-
-    .cta {
+    /* Process steps row */
+    .flow-steps {
+      display: flex;
+      align-items: flex-end;
+      justify-content: stretch;
+      flex-wrap: nowrap;
+      gap: 0;
       width: 100%;
     }
-
-    .cta a {
-      display: block;
-      text-align: center;
-      background: var(--olive-700);
-      color: #ffffff;
-      text-decoration: none;
-      padding: 14px 24px;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      transition: background 0.15s;
+    .flow-step {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 10px;
+      padding: 0 0.4rem;
+      flex: 1;
+    }
+    .flow-step img { width: 48px; height: 48px; object-fit: contain; }
+    .flow-step span {
+      font-size: 12px; font-weight: 500;
+      color: var(--ink-700); text-align: center; line-height: 1.4;
+    }
+    .flow-arr {
+      font-size: 18px; color: var(--sand-200);
+      padding-bottom: 28px; flex-shrink: 0; font-weight: 300;
     }
 
-    .cta a:hover {
-      background: var(--olive-600);
+    /* TECH */
+    .tech-section { background: var(--sand-100); }
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 14px;
     }
+    .tech-card {
+      background: var(--white); border: 1px solid var(--sand-200);
+      border-radius: 10px; padding: 1.1rem 1.2rem;
+    }
+    .tech-card-header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--sand-200);
+    }
+    .tech-card-header img { width: 36px; height: 36px; object-fit: contain; }
+    .tech-card-header span {
+      font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-900);
+    }
+    .tech-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .tech-list li {
+      font-size: 13px; color: var(--ink-700);
+      display: flex; align-items: center; gap: 7px;
+    }
+    .tech-list li::before {
+      content: ''; width: 4px; height: 4px; border-radius: 50%;
+      background: var(--cognac-500); flex-shrink: 0;
+    }
+
+    /* CONTACT */
+    .contact-section { background: var(--white); }
+    .contact-section .lead {
+      font-size: 1rem; color: var(--ink-700); font-weight: 300;
+      max-width: 460px; margin-bottom: 2rem; line-height: 1.75;
+    }
+    .contact-section a { color: var(--olive-600); text-decoration: none; }
+    .form-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; max-width: 540px;
+    }
+    .form-grid .full { grid-column: 1 / -1; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group label { font-size: 13px; font-weight: 500; color: var(--ink-700); }
+    .form-group input, .form-group textarea {
+      font-family: 'Inter', sans-serif; font-size: 14px; padding: 10px 13px;
+      border: 1px solid var(--sand-200); border-radius: 7px;
+      background: var(--sand-50); color: var(--ink-900);
+      outline: none; resize: none; transition: border-color 0.15s;
+    }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--olive-500); }
+    .form-group textarea { min-height: 96px; }
+    .submit-btn {
+      margin-top: 10px; background: var(--olive-700); color: white;
+      border: none; padding: 13px 28px; border-radius: 8px;
+      font-size: 15px; font-weight: 500; cursor: pointer;
+      font-family: 'Inter', sans-serif; transition: background 0.15s;
+    }
+    .submit-btn:hover { background: var(--olive-600); }
 
     footer {
-      font-size: 12px;
-      color: #aaa;
-      text-align: center;
+      background: var(--sand-100); border-top: 1px solid var(--sand-200);
+      padding: 2rem 1.5rem; text-align: center;
+      font-size: 13px; color: var(--ink-500);
     }
+    footer a { color: var(--olive-600); text-decoration: none; }
 
-    @media (max-width: 400px) {
-      .field-row { flex-direction: column; align-items: flex-start; }
-      .copy-btn { align-self: flex-end; }
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .flow-steps { flex-wrap: wrap; justify-content: center; }
+      .flow-arr { display: none; }
+      .flow-sources { padding-left: 0; justify-content: center; }
     }
   </style>
 </head>
 <body>
-  <div class="page">
 
-    <div class="logo-wrap">
-      <img src="logo-text5.png" alt="Tekont – Bokför kvitton. Enkelt.">
+<nav>
+  <img src="logo-text5.png" alt="Tekont">
+  <a href="#kontakt" class="nav-cta">Testa Tekont</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <img src="logo-text5.png" alt="Tekont" class="hero-logo">
+  <p>Tekont hjälper konsulter och småföretag att hantera kvitton snabbare. Från foto till bokförd post på sekunder.</p>
+  <a href="#kontakt" class="hero-cta">Testa Tekont</a>
+</section>
+
+<!-- VIDEO -->
+<section class="video-section">
+  <div class="container">
+    <div class="section-label">Presentation</div>
+    <div class="section-title">Se hur Tekont fungerar</div>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/S4rSbaWBgq8?rel=0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
     </div>
-
-    <div class="card">
-      <div class="card-title">Testuppgifter</div>
-
-      <div class="field">
-        <label>Company ID</label>
-        <div class="field-row">
-          <span class="field-value" id="company-id">c41675e4-71a7-47b2-b9de-0c5ea0f23d9d</span>
-          <button class="copy-btn" onclick="copy('company-id', this)">Kopiera</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Bokio-token</label>
-        <div class="field-row" style="align-items: flex-start;">
-          <span class="token-value" id="bokio-token">U1dFUFJPREFFUzI1NlYyOmM1N2ZNM3RMKy9pdWg3RjkwRHBtUVNrUkNJeFVMT3ptM3E5NTJhZXRYQ2NUdytwL3hzeSthUm5SNlp0QmtoQjJHMWpjdmNJYmJMMGx6eURkYzNTU0RLUzJ0MVg5Y3l5M1NMNEZ0TUJzcTYwMFBRSjlaSkpEaExlV0xSVGw4dTU5TFY2Y05yaFZrVTE1SDUraEhpV0dheC83bUVkMHFxVDVHK2NybW5Zemw1MGdoS1JUZUFJTzdCZ2dIMytEVHVKbzN0M21Ra3N2SHRTTWpRWE9VaGgydHA5NzNVNDl5cndmV3RpbVFNU2krVTFRampNSjQzc0ZFSkozT0QzcTNsK3JERVhta01sRzM3YWpVTlljNEtpdS82WXhQd3hJeElnNWJBNVV6T3poMzl4V3RiNTI5V2lGUjk1RkxVTU5paUQ4L25KMEMrZTR1WU9sMmluamRJKzU5d21ibWI1ZkpxVDlscDllK1VFVFkydE5Zd1RnRTBVVlZKN0xBbmJlNXl3WHpUcVZtdzNzWHZraVJCb3g0bkFndUFESmlPYzQxM0lZOVFpVTV4SVFCeUo1SEV3MHJOOGRmRW9Qc0R3L3dnNGNCZ01DM0tscHhwVm1ZV0FCM1hqMXRLemEyV1hsZVVuTW8zeEljUnpRQ2hBS3RYTTZ6dytMM0JlQ29DSmlXWkhrWlk4VTJlZFZBMXA3MWRuM1dXNHhHN3NjOGFpdnlTZzdEUEZBbUVneHpEUDFPQi9xUEs3OTNFMU51alhMelZyMGppbDNMQzhkVXpZUmh3bldiWmpGYXc9PQ==</span>
-          <button class="copy-btn" style="margin-top:2px;" onclick="copy('bokio-token', this)">Kopiera</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="cta">
-      <a href="https://app.tekont.se" target="_blank">Öppna appen →</a>
-    </div>
-
-    <footer>tekont.se</footer>
-
   </div>
+</section>
 
-  <script>
-    function copy(id, btn) {
-      const text = document.getElementById(id).textContent.trim();
-      navigator.clipboard.writeText(text).then(() => {
-        const orig = btn.textContent;
-        btn.textContent = 'Kopierat!';
-        btn.classList.add('copied');
-        setTimeout(() => {
-          btn.textContent = orig;
-          btn.classList.remove('copied');
-        }, 1800);
-      });
-    }
-  </script>
+<!-- APP -->
+<section class="app-section">
+  <div class="container">
+    <div class="section-label">Appen</div>
+    <div class="section-title">Snabbast när det verkligen gäller</div>
+    <p class="lead">
+      Du står där med kvittot i handen efter taxin med en kollega eller lunchen med en kund. Du har ett val: ta hand om det nu, eller stoppa det i fickan och lägga till ännu en sak på att-göra-listan.<br><br>
+      <strong>Tekont minimerar friktionen.</strong> Öppna appen, ta ett foto. En AI föreslår konteringen. Du granskar, godkänner. Klart. Ingen manuell inmatning, inga glömda kvitton.
+    </p>
+    <img src="app-slide.png" alt="">
+  </div>
+</section>
+
+<!-- FLOW -->
+<section class="flow-section">
+  <div class="container">
+    <div class="section-label">Flödet</div>
+    <div class="section-title">Från kvitto till bokföring på sekunder</div>
+
+    <!--
+      Pure SVG flow diagram. All positions are exact.
+      ViewBox: 800 wide, 220 tall.
+      5 process steps at x = 80, 210, 340, 470, 600 (center of each icon, icon width 64px)
+      3 source icons at x = 210, 340, 470 (same x as steps 2,3,4)
+      Source icons at y=20 (center), label at y=82
+      Horizontal bar at y=110, from x=80 to x=470
+      Vertical stems from sources down to bar: x=210,340,470 from y=82 to y=110
+      Left drop: x=80 from y=110 down to y=140 (arrowhead)
+      Process icons at y=175 (center), labels at y=210
+      Arrows between steps: short horizontal lines at y=175 between step edges
+    -->
+    <div class="flow-svg-container">
+      <svg id="flow-svg" viewBox="0 0 800 270" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+
+        <!-- SOURCE ICONS top row -->
+        <image href="kamera.png"  x="178" y="0"  width="64" height="64"/>
+        <image href="kuvert.png"  x="308" y="0"  width="64" height="64"/>
+        <image href="inkorg.png"  x="438" y="0"  width="64" height="64"/>
+
+        <!-- SOURCE LABELS below icons -->
+        <text x="210" y="80" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4A4A4A">Kamera / uppladdning</text>
+        <text x="340" y="80" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4A4A4A">E-post</text>
+        <text x="470" y="80" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4A4A4A">Bokio-backlog</text>
+
+        <!-- VERTICAL STEMS start below labels at y=90 -->
+        <line x1="210" y1="90" x2="210" y2="112" stroke="#C8BFB0" stroke-width="1.5"/>
+        <line x1="340" y1="90" x2="340" y2="112" stroke="#C8BFB0" stroke-width="1.5"/>
+        <line x1="470" y1="90" x2="470" y2="112" stroke="#C8BFB0" stroke-width="1.5"/>
+
+        <!-- HORIZONTAL BAR from kvitto-center(80) to rightmost stem(470) -->
+        <line x1="80" y1="112" x2="470" y2="112" stroke="#C8BFB0" stroke-width="1.5"/>
+
+        <!-- VERTICAL DROP from x=80 down to arrowhead -->
+        <line x1="80" y1="112" x2="80" y2="138" stroke="#C8BFB0" stroke-width="1.5"/>
+
+        <!-- ARROWHEAD pointing down at kvitto -->
+        <polygon points="74,134 86,134 80,144" fill="#C8BFB0"/>
+
+        <!-- PROCESS STEP ICONS -->
+        <image href="kvitto.png"    x="48"  y="152" width="64" height="64"/>
+        <image href="ai.png"        x="178" y="152" width="64" height="64"/>
+        <image href="kontering.png" x="308" y="152" width="64" height="64"/>
+        <image href="granska.png"   x="438" y="152" width="64" height="64"/>
+        <image href="klar.png"      x="568" y="152" width="64" height="64"/>
+
+        <!-- ARROWS between process steps at y=184 -->
+        <line x1="116" y1="184" x2="172" y2="184" stroke="#C8BFB0" stroke-width="1.5"/>
+        <polygon points="168,179 178,184 168,189" fill="#C8BFB0"/>
+        <line x1="246" y1="184" x2="302" y2="184" stroke="#C8BFB0" stroke-width="1.5"/>
+        <polygon points="298,179 308,184 298,189" fill="#C8BFB0"/>
+        <line x1="376" y1="184" x2="432" y2="184" stroke="#C8BFB0" stroke-width="1.5"/>
+        <polygon points="428,179 438,184 428,189" fill="#C8BFB0"/>
+        <line x1="506" y1="184" x2="562" y2="184" stroke="#C8BFB0" stroke-width="1.5"/>
+        <polygon points="558,179 568,184 558,189" fill="#C8BFB0"/>
+
+        <!-- PROCESS STEP LABELS -->
+        <text x="80"  y="232" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#4A4A4A">Kvitto</text>
+        <text x="210" y="232" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#4A4A4A">AI-analys</text>
+        <text x="340" y="226" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#4A4A4A">Konterings-</text>
+        <text x="340" y="242" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#4A4A4A">förslag</text>
+        <text x="470" y="226" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#4A4A4A">Granska och</text>
+        <text x="470" y="242" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#4A4A4A">godkänn</text>
+        <text x="600" y="226" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#4A4A4A">Skicka till</text>
+        <text x="600" y="242" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#4A4A4A">Bokio</text>
+
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- TECH -->
+<section class="tech-section">
+  <div class="container">
+    <div class="section-label">Under huven</div>
+    <div class="section-title">Tech stack</div>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-card-header"><img src="frontend.png" alt="Frontend"><span>Frontend</span></div>
+        <ul class="tech-list">
+          <li>React / TypeScript</li><li>Vite</li><li>TanStack Query</li><li>react-pdf</li>
+        </ul>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-header"><img src="backend.png" alt="Backend"><span>Backend</span></div>
+        <ul class="tech-list">
+          <li>Java</li><li>Spring Boot</li><li>Spring Security</li><li>Maven</li>
+        </ul>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-header"><img src="databas.png" alt="Databas"><span>Databas</span></div>
+        <ul class="tech-list">
+          <li>PostgreSQL</li><li>Spring Data JPA</li><li>Hibernate</li>
+        </ul>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-header"><img src="auth.png" alt="Auth"><span>Auth</span></div>
+        <ul class="tech-list">
+          <li>Clerk</li><li>Google</li><li>Slack</li><li>HubSpot</li>
+        </ul>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-header"><img src="ai.png" alt="AI"><span>AI</span></div>
+        <ul class="tech-list">
+          <li>OpenAI GPT-4o</li><li>Groq Llama 4 Scout</li><li>xAI Grok 4</li>
+        </ul>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-header"><img src="integrationer.png" alt="Integrationer"><span>Integrationer</span></div>
+        <ul class="tech-list">
+          <li>Bokio API</li><li>Postmark</li>
+        </ul>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-header"><img src="infrastruktur.png" alt="Infrastruktur"><span>Infrastruktur</span></div>
+        <ul class="tech-list">
+          <li>Railway</li><li>Docker</li>
+        </ul>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-header"><img src="verktyg.png" alt="Verktyg"><span>Verktyg</span></div>
+        <ul class="tech-list">
+          <li>IntelliJ IDEA</li><li>VS Code</li><li>Postman</li><li>pgAdmin</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="kontakt">
+  <div class="container">
+    <div class="section-label">Kontakt</div>
+    <div class="section-title">Testa Tekont</div>
+    <p class="lead">Ett antal företag bokför redan sina kvitton med Tekont. Vill du hänga på? Fyll i formuläret så hör vi av oss.</p>
+    <form action="https://formspree.io/f/maqvpzkw" method="POST">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="name">Namn</label>
+          <input type="text" id="name" name="name" placeholder="Anna Svensson" required>
+        </div>
+        <div class="form-group">
+          <label for="email">E-post</label>
+          <input type="email" id="email" name="email" placeholder="anna@foretaget.se" required>
+        </div>
+        <div class="form-group full">
+          <label for="message">Berätta lite om ditt företag</label>
+          <textarea id="message" name="message" placeholder="Vi är ett litet bolag och bokför ca 50 kvitton i månaden..."></textarea>
+        </div>
+      </div>
+      <button type="submit" class="submit-btn">Skicka</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Tekont &nbsp;·&nbsp; <a href="mailto:info@tekont.se">info@tekont.se</a></p>
+</footer>
+
 </body>
 </html>
