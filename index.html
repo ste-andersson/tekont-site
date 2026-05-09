@@ -220,9 +220,9 @@
 
     @media (max-width: 600px) {
       .form-grid { grid-template-columns: 1fr; }
-      .flow-steps { flex-wrap: wrap; justify-content: center; }
-      .flow-arr { display: none; }
-      .flow-sources { padding-left: 0; justify-content: center; }
+      .hero-logo { height: auto; width: 80%; max-width: 80%; }
+      .flow-svg-container { width: 100%; }
+      #flow-svg { width: 100%; height: auto; }
     }
   </style>
 </head>
@@ -283,7 +283,7 @@
       Arrows between steps: short horizontal lines at y=175 between step edges
     -->
     <div class="flow-svg-container">
-      <svg id="flow-svg" viewBox="0 0 800 270" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+      <svg id="flow-svg" viewBox="16 0 644 270" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
 
         <!-- SOURCE ICONS top row -->
         <image href="kamera.png"  x="178" y="0"  width="64" height="64"/>
